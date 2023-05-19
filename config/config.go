@@ -157,6 +157,9 @@ type AuthConfig struct {
 	// CRI proxy mode
 	EnableCRIKeychain   bool   `toml:"enable_cri_keychain"`
 	ImageServiceAddress string `toml:"image_service_address"`
+
+	// GCP
+	EnableGoogleMetadata bool `toml:"enable_google_metadata"`
 }
 
 // Configure remote storage like container registry

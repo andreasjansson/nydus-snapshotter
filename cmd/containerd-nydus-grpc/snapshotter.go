@@ -17,6 +17,7 @@ import (
 
 	"github.com/containerd/nydus-snapshotter/config"
 	"github.com/containerd/nydus-snapshotter/pkg/auth"
+	"github.com/containerd/nydus-snapshotter/pkg/gcp"
 	"github.com/containerd/nydus-snapshotter/pkg/utils/signals"
 	"github.com/containerd/nydus-snapshotter/snapshot"
 
@@ -46,6 +47,10 @@ func Start(ctx context.Context, cfg *config.SnapshotterConfig) error {
 		if err := auth.InitKubeSecretListener(ctx, cfg.RemoteConfig.AuthConfig.KubeconfigPath); err != nil {
 			return err
 		}
+	}
+
+	if cfg.RemoteConfig.AuthConfig.EnableGoogleMetadata {
+		gcp.InitTokenRefresher(ctx)
 	}
 
 	return Serve(ctx, rs, opt, stopSignal)

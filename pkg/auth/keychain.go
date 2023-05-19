@@ -86,7 +86,12 @@ func FromLabels(labels map[string]string) *PassKeyChain {
 // 3. docker config
 // 4. k8s docker config secret
 func GetRegistryKeyChain(host, ref string, labels map[string]string) *PassKeyChain {
-	kc := FromLabels(labels)
+	kc := FromGCPToken(host)
+	if kc != nil {
+		return kc
+	}
+
+	kc = FromLabels(labels)
 	if kc != nil {
 		return kc
 	}
